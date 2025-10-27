@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Working Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-gray-100 flex flex-col items-center justify-center min-h-screen space-y-4">
+
+  <h2 class="text-5xl font-bold">Calculator</h2>
+
+  <!-- Display -->
+  <input type="text" id="display" disabled
+         class="w-80 text-right text-3xl p-3 rounded-3xl mb-4 text-black"/>
+
+  <!-- Buttons -->
+  <div class="grid grid-cols-4 gap-3 w-80">
+
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-blue-900" onclick="clearAll()">AC</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-blue-900" onclick="appendParenthesis()">()</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-blue-900" onclick="appendValue('%')">%</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-blue-900" onclick="appendValue('/')">/</button>
+
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('7')">7</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('8')">8</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('9')">9</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-blue-900" onclick="appendValue('*')">*</button>
+
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('4')">4</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('5')">5</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('6')">6</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-blue-900" onclick="appendValue('-')">-</button>
+
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('1')">1</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('2')">2</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('3')">3</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-blue-900" onclick="appendValue('+')">+</button>
+
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('0')">0</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="appendValue('.')">.</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-gray-900" onclick="clearLast()">C</button>
+    <button class="text-3xl rounded-3xl px-6 py-3 bg-green-600 text-black" onclick="calculateResult()">=</button>
+
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function appendValue(val) {
+      display.value += val;
+    }
+
+    function clearAll() {
+      display.value = '';
+    }
+
+    function clearLast() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    // Toggle parentheses
+    let openParen = true;
+    function appendParenthesis() {
+      display.value += openParen ? '(' : ')';
+      openParen = !openParen;
+    }
+
+    function calculateResult() {
+      try {
+        // Convert percentages: 50% -> 0.5
+        let expr = display.value.replace(/(\d+(\.\d+)?)%/g, (_, num) => num / 100);
+        // Avoid trailing operators
+        if (/[\+\-\*\/\.\(]$/.test(expr)) {
+          display.value = 'Error';  
+          return;
+        }
+        display.value = eval(expr);
+      } catch {
+        display.value = 'Error';
+      }
+    }
+  </script>
+
+</body>
+</html>
+
+
