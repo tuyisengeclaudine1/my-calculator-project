@@ -59,7 +59,7 @@
       display.value = display.value.slice(0, -1);
     }
 
-    // Toggle parentheses
+    
     let openParen = true;
     function appendParenthesis() {
       display.value += openParen ? '(' : ')';
@@ -68,9 +68,8 @@
 
     function calculateResult() {
       try {
-        // Convert percentages: 50% -> 0.5
+      
         let expr = display.value.replace(/(\d+(\.\d+)?)%/g, (_, num) => num / 100);
-        // Avoid trailing operators
         if (/[\+\-\*\/\.\(]$/.test(expr)) {
           display.value = 'Error';  
           return;
